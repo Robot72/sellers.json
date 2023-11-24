@@ -1,7 +1,10 @@
 const Schema = require("validate");
 
 const BOOL_BIN = val => val === 0 || val === 1;
-const POSITIVE_NUMBER = val => Number(val) === val && val >= 0;
+const POSITIVE_NUMBER = val => {
+    const num = Number(val);
+    return !isNaN(num) && num >= 0;
+};
 
 let __schema;
 
@@ -17,7 +20,7 @@ function getSchema() {
                 required: false
             },
             version: {
-                type: Number,
+                type: String,
                 required: true,
                 use: { POSITIVE_NUMBER }
             },
@@ -41,10 +44,10 @@ function getSchema() {
                     required: false,
                     use: { BOOL_BIN }
                 },
-                directness: {
+                seller_type: {
                     type: String,
                     required: true,
-                    match: /^(DIRECT|RESELLER|BOTH)$/i
+                    match: /^(DIRECT|PUBLISHER|INTERMEDIARY|RESELLER|BOTH)$/i
                 },
                 name: {
                     type: String,
